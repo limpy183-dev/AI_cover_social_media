@@ -1,0 +1,81 @@
+Overview
+Build a full-stack AI voice cover creation and sharing platform that functions like a social media network (similar to YouTube but specifically for AI voice covers). Users can create, publish, discover, and interact with AI-generated vocal covers directly in the browser — no local tools required. The platform uses Supabase as the primary database and backend infrastructure, with all data fully synced and linked to authenticated user accounts.
+
+Remove all fake data, everything should be real and functional. (the user should be able to add them)
+
+Core Features
+Authentication & User Accounts
+Full user authentication system using Supabase Auth (email/password, OAuth providers such as Google and Discord)
+Each user has a personal profile page displaying their posted covers, liked covers, uploaded voice models, followers, and following count
+User profile settings including avatar, display name, bio, and social links
+All platform activity (posts, likes, comments, shares, settings, uploads) is linked to and synced with the authenticated user account in Supabase
+Users can follow other users and receive a personalized feed based on who they follow
+AI Voice Cover Creation Studio
+A fully browser-based cover creation studio — no local software or tools required
+Users upload an audio file (instrumental, song, or any audio) directly to the platform
+Users select one or more voice models to apply to the audio file
+The creation studio supports multi-voice layering, allowing users to assign different voice models to different time segments of the audio file with the following controls:
+Select a voice model for each vocal segment
+Define a precise start time and end time for each segment
+Add as many voice segments as needed, with no limit on the number of segments or voices used
+Segments can overlap, stack, or follow sequentially
+Each segment can be individually configured with its own voice settings (pitch, speed, tone, blend, etc.)
+A visual timeline editor displays all voice segments, allowing users to drag, resize, and reorder them intuitively
+Real-time preview of individual segments or the full cover before finalizing
+Output is rendered server-side and returned as a downloadable and postable audio file
+Voice Model Management
+Users can upload their own custom AI voice models directly to the platform
+Uploaded voice models are stored securely in Supabase Storage and linked to the user's account
+Once uploaded, voice models are saved permanently to the user's library and can be reused across unlimited cover projects without re-uploading
+Users can name, tag, and organize their voice models
+Users can choose to make their voice models public (discoverable and usable by other users) or private (only accessible to themselves)
+A searchable and filterable public voice model library allows users to browse and use community-shared models
+Voice model metadata stored in Supabase includes: model name, description, tags, creator account, upload date, usage count, and privacy setting
+Post Creation & Publishing
+After creating a cover, users can publish it as a post to the platform feed
+Each post includes:
+The rendered audio cover (streamed or downloaded)
+Cover title and description
+Tags and genre labels
+Thumbnail or cover art (uploadable or auto-generated)
+The full cover creation settings (voice models used, segment timecodes, voice parameters) stored and attached to the post
+Original audio source credit or reference (optional)
+Posts are stored in Supabase and linked to the publishing user's account
+Social & Discovery Features
+Likes — Users can like any post; like counts are stored and synced in Supabase per post and per user
+Comments — Users can comment on posts; comments support nested replies, likes on individual comments, and timestamps; all stored in Supabase linked to user accounts
+Shares — Users can share posts via a shareable link or re-post to their own profile feed
+Copy Settings — Any post's creation settings (voice models, segment configurations, timecodes, parameters) can be copied directly into the user's own creation studio as a starting template, allowing them to recreate or remix the cover
+Save / Bookmark — Users can privately save posts to a personal bookmarks collection
+Feed & Sorting System
+A global public feed displays all published posts with the following sort and filter options:
+Top — Ordered by highest total likes of all time
+Trending — Ordered by like velocity and engagement within a recent time window (e.g., last 24–72 hours)
+New — Ordered by most recently published
+Old — Ordered by oldest published first
+A personalized Following Feed showing only posts from users the current user follows
+Filter options including genre, tags, voice model used, duration, and creator
+A search bar for finding posts, users, and voice models by keyword or tag
+Data Storage & Supabase Integration
+Supabase is used as the sole database and storage backend, with the following data fully stored, synced, and relational:
+Users table — account info, profile data, preferences, follower/following relationships
+Voice Models table — model file reference (Supabase Storage), name, tags, creator user ID, privacy setting, usage stats
+Projects table — in-progress cover projects linked to user, including all timeline segment data, voice assignments, and configuration stored as structured JSON
+Posts table — published covers linked to user, with audio file reference, metadata, settings snapshot, thumbnail, tags, timestamps, and engagement counts
+Likes table — each like stored as a row linking a user ID to a post ID, enabling accurate counts and user-specific like state
+Comments table — each comment linked to a post ID and user ID, with support for parent comment ID for nested replies
+Shares table — share events linked to user and post
+Bookmarks table — saved posts linked to user
+Follows table — follower/following relationships between user IDs
+Notifications table — activity notifications (new likes, comments, follows, shares) synced to the relevant user account in real time using Supabase Realtime
+Supabase Row Level Security (RLS) policies enforce that users can only access, modify, or delete their own private data
+Supabase Realtime is used for live updates on likes, comments, and notifications without page refresh
+Supabase Storage is used for all file uploads including audio files, voice model files, thumbnails, and avatars, with organized bucket structures per data type
+Additional Platform Features
+Notification system alerting users when their posts receive likes, comments, shares, or when someone follows them
+A user dashboard displaying personal stats: total posts, total likes received, total plays, most popular cover, and most used voice model
+Audio playback player embedded in the feed with play, pause, seek, volume, and looping controls — audio plays inline without navigating away from the feed
+A dedicated profile page for each user showing their posts, liked posts, saved voice models, and follower stats
+Ability to edit or delete published posts
+Ability to set posts as public, unlisted (accessible via link only), or private
+A report and moderation system for flagging inappropriate posts or voice models
