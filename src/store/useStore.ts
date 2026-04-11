@@ -227,6 +227,7 @@ const emptyDashboard: DashboardStats = {
 };
 
 const FALLBACK_AVATAR = 'https://api.dicebear.com/7.x/avataaars/svg?seed=VoxCover';
+const APP_REDIRECT_URL = 'https://limpy183-dev.github.io/AI_cover_social_media/';
 
 function slugifyFileName(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -658,7 +659,7 @@ export const useStore = create<State>((set, get) => ({
     set({ actionLoading: true, error: '' });
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: window.location.origin },
+      options: { redirectTo: APP_REDIRECT_URL },
     });
     set({ actionLoading: false, error: error?.message || '' });
     return error ? { error: error.message } : {};
