@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/AI_cover_social_media/',
   plugins: [react(), tailwindcss(), viteSingleFile()],
   resolve: {
     alias: {
